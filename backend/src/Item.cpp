@@ -1,5 +1,7 @@
 #include "Item.h"
 
+int Item::idCounter = 0;
+
 Item::Item() {
     ++idCounter;
     this->id = idCounter;

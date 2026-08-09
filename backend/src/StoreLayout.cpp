@@ -26,13 +26,13 @@ void StoreLayout::deleteNode(const Node& node) {
 }
 
 void StoreLayout::deleteEdge(const Edge& edge) {
-    std::vector<Edge> edgeList1 = this->edgesPerArea[edge.getNode1().getId()];
+    std::vector<Edge>& edgeList1 = this->edgesPerArea[edge.getNode1().getId()];
     edgeList1.erase(
         std::remove(edgeList1.begin(), edgeList1.end(), edge),
         edgeList1.end()
     );
 
-    std::vector<Edge> edgeList2 = this->edgesPerArea[edge.getNode2().getId()];
+    std::vector<Edge>& edgeList2 = this->edgesPerArea[edge.getNode2().getId()];
     edgeList2.erase(
         std::remove(edgeList2.begin(), edgeList2.end(), edge),
         edgeList2.end()

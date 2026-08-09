@@ -1,5 +1,7 @@
 #include "Edge.h"
 
+int Edge::idCounter = 0;
+
 Edge::Edge() {
     ++idCounter;
     this->id = idCounter;
@@ -26,8 +28,9 @@ void Edge::setNode2(const Node& newNode2) {
 }
 
 bool Edge::operator==(const Edge& other) const {
-    return this->getNode1().getId() == other.getNode1().getId() &&
-               this->getNode2().getId() == other.getNode2().getId();
+    return (this->getNode1().getId() == other.getNode1().getId() &&
+    this->getNode2().getId() == other.getNode2().getId()) || (this->getNode1().getId() == other.getNode2().getId() &&
+    this->getNode2().getId() == other.getNode1().getId());
 }
 
 void Edge::printEdge() const {

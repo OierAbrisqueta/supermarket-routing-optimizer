@@ -1,5 +1,7 @@
 #include "Node.h"
 
+int Node::idCounter = 0;
+
 Node::Node() {
     ++idCounter;
     this->id = idCounter;
