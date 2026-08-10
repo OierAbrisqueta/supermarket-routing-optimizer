@@ -7,6 +7,11 @@ Node::Node() {
     this->id = idCounter;
 }
 
+Node::Node(int x, int y): Node() {
+    this->x = x;
+    this->y = y;
+}
+
 int Node::getX() const {
     return this->x;
 }

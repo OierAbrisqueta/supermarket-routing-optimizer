@@ -7,32 +7,37 @@ Edge::Edge() {
     this->id = idCounter;
 }
 
-const Node& Edge::getNode1() const {
-    return this->node1;
+Edge::Edge(int idNode1, int idNode2): Edge() {
+    this->idNode1 = idNode1;
+    this->idNode2 = idNode2;
 }
 
-const Node& Edge::getNode2() const {
-    return this->node2;
+int Edge::getNode1() const {
+    return this->idNode1;
+}
+
+int Edge::getNode2() const {
+    return this->idNode2;
 }
 
 int Edge::getId() const {
     return this->id;
 }
 
-void Edge::setNode1(const Node& newNode1) {
-    this->node1 = newNode1;
+void Edge::setNode1(int newIdNode1) {
+    this->idNode1 = newIdNode1;
 }
 
-void Edge::setNode2(const Node& newNode2) {
-    this->node2 = newNode2;
+void Edge::setNode2(int newIdNode2) {
+    this->idNode2 = newIdNode2;
 }
 
 bool Edge::operator==(const Edge& other) const {
-    return (this->getNode1().getId() == other.getNode1().getId() &&
-    this->getNode2().getId() == other.getNode2().getId()) || (this->getNode1().getId() == other.getNode2().getId() &&
-    this->getNode2().getId() == other.getNode1().getId());
+    return (this->getNode1() == other.getNode1() &&
+    this->getNode2() == other.getNode2()) || (this->getNode1() == other.getNode2() &&
+    this->getNode2() == other.getNode1());
 }
 
 void Edge::printEdge() const {
-    std::cout << "Edge Id: " << this->id << " | Area 1: " << this->getNode1().getId() << " | Area 2: " << this->getNode2().getId() << std::endl;
+    std::cout << "Edge Id: " << this->id << " | Area 1: " << this->getNode1() << " | Area 2: " << this->getNode2() << std::endl;
 }

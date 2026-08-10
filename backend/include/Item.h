@@ -6,6 +6,7 @@
 class Item {
 public:
     Item();
+    Item(std::string name, Node& area);
 
     [[nodiscard]] int getId() const;
     [[nodiscard]] std::string getName() const;

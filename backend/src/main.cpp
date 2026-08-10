@@ -18,12 +18,12 @@ int main(void) {
     node1.setY(4);
     store.addNode(node3);
     Edge edge1;
-    edge1.setNode1(node1);
-    edge1.setNode2(node2);
+    edge1.setNode1(node1.getId());
+    edge1.setNode2(node2.getId());
     store.addEdge(edge1);
     Edge edge2;
-    edge2.setNode1(node1);
-    edge2.setNode2(node3);
+    edge2.setNode1(node1.getId());
+    edge2.setNode2(node3.getId());
     store.addEdge(edge2);
     store.printLayout();
     return 0;

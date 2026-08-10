@@ -6,6 +6,7 @@
 class Node {
 public:
     Node();
+    Node(int x, int y);
 
     [[nodiscard]] int getX() const;
     [[nodiscard]] int getY() const;

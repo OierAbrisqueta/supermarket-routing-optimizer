@@ -6,21 +6,22 @@
 class Edge {
 public:
     Edge();
+    Edge(int idNode1, int idNode2);
 
-    [[nodiscard]] const Node& getNode1() const;
-    [[nodiscard]] const Node& getNode2() const;
+    [[nodiscard]] int getNode1() const;
+    [[nodiscard]] int getNode2() const;
     [[nodiscard]] int getId() const;
 
-    void setNode1(const Node& newNode1);
-    void setNode2(const Node& newNode2);
+    void setNode1(int newIdNode1);
+    void setNode2(int newIdNode2);
 
     void printEdge() const;
     bool operator==(const Edge& other) const;
 
 private:
     int id;
-    Node node1;
-    Node node2;
+    int idNode1;
+    int idNode2;
 
     static int idCounter;
 };

@@ -7,6 +7,11 @@ Item::Item() {
     this->id = idCounter;
 }
 
+Item::Item(std::string name, Node& area): Item() {
+    this->name = name;
+    this->area = area;
+}
+
 int Item::getId() const {
     return this->id;
 }
