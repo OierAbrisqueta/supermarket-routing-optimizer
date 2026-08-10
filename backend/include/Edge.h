@@ -2,6 +2,7 @@
 #define ROUTINGOPTIMIZER_EDGE_H
 
 #include "Node.h"
+#include <atomic>
 
 class Edge {
 public:
@@ -23,7 +24,7 @@ private:
     int idNode1;
     int idNode2;
 
-    static int idCounter;
+    static std::atomic<int> idCounter;
 };
 
 #endif //ROUTINGOPTIMIZER_EDGE_H

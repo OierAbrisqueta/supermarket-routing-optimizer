@@ -1,6 +1,6 @@
 #include "Edge.h"
 
-int Edge::idCounter = 0;
+std::atomic<int> Edge::idCounter{0};
 
 Edge::Edge() {
     ++idCounter;

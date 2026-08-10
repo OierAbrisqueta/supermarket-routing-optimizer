@@ -2,6 +2,7 @@
 #define ROUTINGOPTIMIZER_NODE_H
 
 #include <iostream>
+#include <atomic>
 
 class Node {
 public:
@@ -24,7 +25,7 @@ private:
     int x = -1;
     int y = -1;
 
-    static int idCounter;
+    static std::atomic<int> idCounter;
 };
 
 #endif //ROUTINGOPTIMIZER_NODE_H

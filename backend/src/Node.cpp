@@ -1,6 +1,6 @@
 #include "Node.h"
 
-int Node::idCounter = 0;
+std::atomic<int> Node::idCounter{0};
 
 Node::Node() {
     ++idCounter;

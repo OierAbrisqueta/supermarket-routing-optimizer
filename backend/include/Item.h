@@ -2,6 +2,7 @@
 #define ROUTINGOPTIMIZER_ITEM_H
 #include <string>
 #include "Node.h"
+#include <atomic>
 
 class Item {
 public:
@@ -21,7 +22,7 @@ private:
     std::string name = "";
     Node area;
 
-    static int idCounter;
+    static std::atomic<int> idCounter;
 };
 
 #endif //ROUTINGOPTIMIZER_ITEM_H

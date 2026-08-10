@@ -1,6 +1,6 @@
 #include "Item.h"
 
-int Item::idCounter = 0;
+std::atomic<int> Item::idCounter{0};
 
 Item::Item() {
     ++idCounter;
