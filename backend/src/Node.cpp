@@ -7,16 +7,16 @@ Node::Node() {
     this->id = idCounter;
 }
 
-Node::Node(int x, int y): Node() {
+Node::Node(double x, double y): Node() {
     this->x = x;
     this->y = y;
 }
 
-int Node::getX() const {
+double Node::getX() const {
     return this->x;
 }
 
-int Node::getY() const {
+double Node::getY() const {
     return this->y;
 }
 
@@ -24,11 +24,11 @@ int Node::getId() const {
     return this->id;
 }
 
-void Node::setX(int x) {
+void Node::setX(double x) {
     this->x = x;
 }
 
-void Node::setY(int y) {
+void Node::setY(double y) {
     this->y = y;
 }
 

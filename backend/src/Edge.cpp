@@ -1,15 +1,19 @@
 #include "Edge.h"
+#include "StoreLayout.h"
+#include <cmath>
 
 std::atomic<int> Edge::idCounter{0};
 
 Edge::Edge() {
     ++idCounter;
     this->id = idCounter;
+    this->weight = 0;
 }
 
 Edge::Edge(int idNode1, int idNode2): Edge() {
     this->idNode1 = idNode1;
     this->idNode2 = idNode2;
+    this->weight = 0;
 }
 
 int Edge::getNode1() const {
@@ -40,4 +44,12 @@ bool Edge::operator==(const Edge& other) const {
 
 void Edge::printEdge() const {
     std::cout << "Edge Id: " << this->id << " | Area 1: " << this->getNode1() << " | Area 2: " << this->getNode2() << std::endl;
+}
+
+double Edge::getWeight(const StoreLayout& slayout) {
+    Node node1 = slayout.getAreaById(this->idNode1).value();
+    Node node2 = slayout.getAreaById(this->idNode2).value();
+    double distance = std::abs(node1.getX() - node2.getX()) + std::abs(node1.getY() - node2.getY());
+    this->weight = distance;
+    return distance;
 }

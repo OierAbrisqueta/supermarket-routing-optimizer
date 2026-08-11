@@ -7,13 +7,13 @@
 class Node {
 public:
     Node();
-    Node(int x, int y);
+    Node(double x, double y);
 
-    [[nodiscard]] int getX() const;
-    [[nodiscard]] int getY() const;
+    [[nodiscard]] double getX() const;
+    [[nodiscard]] double getY() const;
     [[nodiscard]] int getId() const;
-    void setX(int x);
-    void setY(int y);
+    void setX(double x);
+    void setY(double y);
 
     void printNode() const;
     [[nodiscard]] std::string toString() const;
@@ -22,8 +22,8 @@ public:
 
 private:
     int id;
-    int x = -1;
-    int y = -1;
+    double x = -1;
+    double y = -1;
 
     static std::atomic<int> idCounter;
 };
