@@ -15,7 +15,9 @@ add_library(routing_engine
         include/Edge.h
         src/Edge.cpp
         include/StoreLayout.h
-        src/StoreLayout.cpp)
+        src/StoreLayout.cpp
+        include/RouteEngine.h
+        src/RouteEngine.cpp)
 
 add_executable(server src/main.cpp)
 target_link_libraries(server PRIVATE routing_engine)
