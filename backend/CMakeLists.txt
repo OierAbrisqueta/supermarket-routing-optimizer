@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include_directories(include)
 
-add_executable(server src/main.cpp
+add_library(routing_engine
         include/Node.h
         src/Node.cpp
         include/Item.h
@@ -16,3 +16,6 @@ add_executable(server src/main.cpp
         src/Edge.cpp
         include/StoreLayout.h
         src/StoreLayout.cpp)
+
+add_executable(server src/main.cpp)
+target_link_libraries(server PRIVATE routing_engine)
