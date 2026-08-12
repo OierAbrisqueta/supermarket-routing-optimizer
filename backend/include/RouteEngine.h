@@ -7,10 +7,13 @@ class RouteEngine {
 public:
     RouteEngine(const StoreLayout& storeLayout);
 
-    std::vector<int> calculateShortestPath(int startId, int endId) const;
-    std::vector<int> calculateOptimalRoute(int startId, int endId, const std::vector<Item>& list);
-
+    [[nodiscard]] std::vector<int> calculateShortestPath(int startId, int endId) const;
     [[nodiscard]] double hScore(int start, int end) const;
+    [[nodiscard]] double calculateDistance(std::vector<int> path) const;
+
+    std::vector<int> calculateOptimalRoute(int startId, int endId, const std::vector<Item>& list);
+    std::vector<int> twoOpt(int startId, int endId, const std::vector<Item>& list);
+    std::vector<int> branchAndBound(int startId, int endId, const std::vector<Item>& list);
 
 private:
     const StoreLayout& layout;

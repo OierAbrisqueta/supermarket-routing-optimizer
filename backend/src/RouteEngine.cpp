@@ -74,5 +74,57 @@ double RouteEngine::hScore(int start, int end) const {
 }
 
 std::vector<int> RouteEngine::calculateOptimalRoute(int startId, int endId, const std::vector<Item>& list) {
+    std::vector<int> nodeIds;
+    nodeIds.push_back(startId);
+    for (int i{0}; i < list.size(); i++) {
+        nodeIds.push_back(list.at(i).getArea().getId());
+    }
+    nodeIds.push_back(endId);
+
+    int nNodes = nodeIds.size();
+    std::vector<std::vector<double>> distanceMatrix(nNodes, std::vector<double>(nNodes, 0.0));
+
+    for (int i{0}; i < nNodes; i++) {
+        for (int j{0}; j <nNodes; j++) {
+            if (i == j) {
+                distanceMatrix[i][j] = 0;
+            }
+            if (nodeIds[i] == nodeIds[j]) {
+                distanceMatrix[i][j] = 0;
+            } else {
+                std::vector<int> path = calculateShortestPath(i, j);
+                distanceMatrix[i][j] = calculateDistance(path);
+            }
+        }
+    }
+
+
     return {};
 }
+
+std::vector<int> RouteEngine::twoOpt(int startId, int endId, const std::vector<Item>& list) {
+
+}
+
+std::vector<int> RouteEngine::branchAndBound(int startId, int endId, const std::vector<Item>& list) {
+
+}
+
+[[nodiscard]] double RouteEngine::calculateDistance(std::vector<int> path) const {
+    double sum = 0;
+    int prevNode = path.at(0);
+    std::unordered_map<int, std::vector<int>> edgesMap = this->layout.getEdgesPerArea();
+
+    for (int i{1}; i < path.size(); i++) {
+        int current = path.at(i);
+        double min = 100000000000000;
+        for (int edgeId : edgesMap.at(prevNode)) {
+            Edge e = this->layout.getEdgeById(edgeId).value();
+            if ((e.getNode1() == current || e.getNode2() == current) && e.getWeight(layout) < min) min = e.getWeight(layout);
+        }
+        prevNode = current;
+        sum += min;
+    }
+    return sum;
+}
+
