@@ -82,32 +82,65 @@ std::vector<int> RouteEngine::calculateOptimalRoute(int startId, int endId, cons
     nodeIds.push_back(endId);
 
     int nNodes = nodeIds.size();
-    std::vector<std::vector<double>> distanceMatrix(nNodes, std::vector<double>(nNodes, 0.0));
+
+    std::unordered_map<int, std::unordered_map<int, double>> distMatrix;
 
     for (int i{0}; i < nNodes; i++) {
-        for (int j{0}; j <nNodes; j++) {
-            if (i == j) {
-                distanceMatrix[i][j] = 0;
-            }
-            if (nodeIds[i] == nodeIds[j]) {
-                distanceMatrix[i][j] = 0;
+        for (int j{0}; j < nNodes; j++) {
+            int idA = nodeIds[i];
+            int idB = nodeIds[j];
+            
+            if (idA == idB) {
+                distMatrix[idA][idB] = 0.0;
             } else {
-                std::vector<int> path = calculateShortestPath(i, j);
-                distanceMatrix[i][j] = calculateDistance(path);
+                std::vector<int> path = calculateShortestPath(idA, idB);
+                distMatrix[idA][idB] = calculateDistance(path);
             }
         }
     }
 
-
-    return {};
+    return twoOpt(startId, endId, list, distMatrix);
 }
 
-std::vector<int> RouteEngine::twoOpt(int startId, int endId, const std::vector<Item>& list) {
+std::vector<int> RouteEngine::twoOpt(int startId, int endId, const std::vector<Item>& list, const std::unordered_map<int, std::unordered_map<int, double>>& distMatrix) {
+    std::vector<int> current;
+    current.push_back(startId);
+    for (const Item& item : list) {
+        current.push_back(item.getArea().getId());
+    }
+    current.push_back(endId);
 
+    bool improvement = true;
+    while (improvement) {
+        improvement = false;
+
+        for (int i = 1; i < current.size() - 2; i++) {
+            for (int k = i + 1; k < current.size() - 1; k++) {
+                int beforeCut1 = current[i - 1];
+                int afterCut1  = current[i];
+
+                int beforeCut2 = current[k];
+                int afterCut2  = current[k + 1];
+
+                double distanceChange =
+                    - distMatrix.at(beforeCut1).at(afterCut1)
+                    - distMatrix.at(beforeCut2).at(afterCut2)
+                    + distMatrix.at(beforeCut1).at(beforeCut2)
+                    + distMatrix.at(afterCut1).at(afterCut2);
+
+                if (distanceChange < -0.0001) {
+                    std::reverse(current.begin() + i, current.begin() + k + 1);
+                    improvement = true;
+                }
+            }
+        }
+    }
+    
+    return current;
 }
 
 std::vector<int> RouteEngine::branchAndBound(int startId, int endId, const std::vector<Item>& list) {
-
+    return {};
 }
 
 [[nodiscard]] double RouteEngine::calculateDistance(std::vector<int> path) const {

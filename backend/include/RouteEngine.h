@@ -12,7 +12,7 @@ public:
     [[nodiscard]] double calculateDistance(std::vector<int> path) const;
 
     std::vector<int> calculateOptimalRoute(int startId, int endId, const std::vector<Item>& list);
-    std::vector<int> twoOpt(int startId, int endId, const std::vector<Item>& list);
+    std::vector<int> twoOpt(int startId, int endId, const std::vector<Item>& list, const std::unordered_map<int, std::unordered_map<int, double>>& distMatrix);
     std::vector<int> branchAndBound(int startId, int endId, const std::vector<Item>& list);
 
 private:
