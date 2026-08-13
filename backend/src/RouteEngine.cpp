@@ -100,7 +100,23 @@ std::vector<int> RouteEngine::calculateOptimalRoute(int startId, int endId, cons
     }
 
     std::vector<int> fastRoute = twoOpt(startId, endId, list, distMatrix);
-    return branchAndBound(startId, endId, list, fastRoute, distMatrix);
+    std::vector<int> itemPath = branchAndBound(startId, endId, list, fastRoute, distMatrix);
+
+    std::vector<int> fullPath;
+    if (itemPath.empty()) return fullPath;
+
+    for (size_t i = 0; i < itemPath.size() - 1; ++i) {
+        std::vector<int> segment = calculateShortestPath(itemPath[i], itemPath[i+1]);
+        if (!segment.empty()) {
+            if (fullPath.empty()) {
+                fullPath = segment;
+            } else {
+                fullPath.insert(fullPath.end(), segment.begin() + 1, segment.end());
+            }
+        }
+    }
+
+    return fullPath;
 }
 
 std::vector<int> RouteEngine::twoOpt(int startId, int endId, const std::vector<Item>& list, const std::unordered_map<int, std::unordered_map<int, double>>& distMatrix) {

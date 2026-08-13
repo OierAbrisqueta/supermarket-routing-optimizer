@@ -21,3 +21,6 @@ add_library(routing_engine
 
 add_executable(server src/main.cpp)
 target_link_libraries(server PRIVATE routing_engine)
+
+add_executable(test_runner src/test_runner.cpp)
+target_link_libraries(test_runner PRIVATE routing_engine)
