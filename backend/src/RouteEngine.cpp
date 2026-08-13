@@ -99,7 +99,8 @@ std::vector<int> RouteEngine::calculateOptimalRoute(int startId, int endId, cons
         }
     }
 
-    return twoOpt(startId, endId, list, distMatrix);
+    std::vector<int> fastRoute = twoOpt(startId, endId, list, distMatrix);
+    return branchAndBound(startId, endId, list, fastRoute, distMatrix);
 }
 
 std::vector<int> RouteEngine::twoOpt(int startId, int endId, const std::vector<Item>& list, const std::unordered_map<int, std::unordered_map<int, double>>& distMatrix) {
