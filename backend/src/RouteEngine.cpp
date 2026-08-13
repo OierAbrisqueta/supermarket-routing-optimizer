@@ -139,8 +139,56 @@ std::vector<int> RouteEngine::twoOpt(int startId, int endId, const std::vector<I
     return current;
 }
 
-std::vector<int> RouteEngine::branchAndBound(int startId, int endId, const std::vector<Item>& list) {
-    return {};
+std::vector<int> RouteEngine::branchAndBound(int startId, int endId, const std::vector<Item>& list, std::vector<int> bestPathFromTwoOpt,
+                                                 const std::unordered_map<int, std::unordered_map<int, double>>& distMatrix) {
+    double bestCost = calculateDistance(bestPathFromTwoOpt);
+    std::vector<int> bestPath = bestPathFromTwoOpt;
+
+    std::vector<int> currentPath;
+    currentPath.push_back(startId);
+
+    std::unordered_map<int, bool> visited;
+    for (int i{0}; i < list.size(); i++) {
+        visited[list.at(i).getArea().getId()] = false; // Use [] instead of .at() when adding new elements
+    }
+
+    auto startTime = std::chrono::steady_clock::now();
+    int timeLimit = 500;
+
+    bbHelper(startId, endId, 0.0, currentPath, visited, bestPath, bestCost, distMatrix, startTime, timeLimit, list);
+
+    return bestPath;
+}
+
+void RouteEngine::bbHelper(int currentNode, int endId, double currentCost, std::vector<int>& currentPath, std::unordered_map<int, bool>& visited,
+            std::vector<int>& bestPath, double& bestCost, const std::unordered_map<int, std::unordered_map<int, double>>& distMatrix,
+            std::chrono::time_point<std::chrono::steady_clock> startTime, int timeLimitMs, const std::vector<Item>& list) {
+    auto now = std::chrono::steady_clock::now();
+    auto totalTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - startTime).count();
+    if (totalTime > timeLimitMs) return;
+
+    if (currentCost > bestCost) return;
+
+    if (currentPath.size() == list.size() + 1) {
+        double finalCost = currentCost + distMatrix.at(currentNode).at(endId);
+        if (finalCost < bestCost) {
+            bestCost = finalCost;
+            bestPath = currentPath;
+            bestPath.push_back(endId); // Add the end node only to the bestPath copy!
+        }
+        return;
+    }
+
+    for (auto& [nodeId, isVisited] : visited) {
+        if (!isVisited) {
+            visited.at(nodeId) = true;
+            currentPath.push_back(nodeId);
+            double interCost = currentCost + distMatrix.at(currentNode).at(nodeId);
+            bbHelper(nodeId, endId, interCost, currentPath, visited, bestPath, bestCost, distMatrix, startTime, timeLimitMs, list);
+            currentPath.pop_back();
+            visited.at(nodeId) = false;
+        }
+    }
 }
 
 [[nodiscard]] double RouteEngine::calculateDistance(std::vector<int> path) const {
