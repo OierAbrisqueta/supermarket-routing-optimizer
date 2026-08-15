@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include_directories(include)
 
+find_package(SQLite3 REQUIRED)
+
 add_library(routing_engine
         include/Node.h
         src/Node.cpp
@@ -20,7 +22,7 @@ add_library(routing_engine
         src/RouteEngine.cpp)
 
 add_executable(server src/main.cpp)
-target_link_libraries(server PRIVATE routing_engine)
+target_link_libraries(server PRIVATE routing_engine SQLite::SQLite3)
 
 add_executable(test_runner src/test_runner.cpp)
-target_link_libraries(test_runner PRIVATE routing_engine)
+target_link_libraries(test_runner PRIVATE routing_engine SQLite::SQLite3)

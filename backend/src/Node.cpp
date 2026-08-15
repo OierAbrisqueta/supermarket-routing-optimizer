@@ -12,6 +12,16 @@ Node::Node(double x, double y): Node() {
     this->y = y;
 }
 
+Node::Node(int id, double x, double y) {
+    this->id = id;
+    this->x = x;
+    this->y = y;
+
+    int currentCounter = idCounter.load();
+    while (id >= currentCounter && !idCounter.compare_exchange_weak(currentCounter, id)) {
+    }
+}
+
 double Node::getX() const {
     return this->x;
 }

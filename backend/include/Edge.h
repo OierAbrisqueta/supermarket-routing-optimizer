@@ -10,6 +10,7 @@ class Edge {
 public:
     Edge();
     Edge(int idNode1, int idNode2);
+    Edge(int id, int idNode1, int idNode2, double weight = 0);
 
     [[nodiscard]] int getNode1() const;
     [[nodiscard]] int getNode2() const;

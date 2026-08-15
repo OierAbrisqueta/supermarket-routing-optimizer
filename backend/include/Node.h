@@ -8,6 +8,7 @@ class Node {
 public:
     Node();
     Node(double x, double y);
+    Node(int id, double x, double y);
 
     [[nodiscard]] double getX() const;
     [[nodiscard]] double getY() const;

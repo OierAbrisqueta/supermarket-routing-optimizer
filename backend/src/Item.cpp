@@ -12,6 +12,16 @@ Item::Item(std::string name, Node& area): Item() {
     this->area = area;
 }
 
+Item::Item(int id, std::string name, Node area) {
+    this->id = id;
+    this->name = name;
+    this->area = area;
+
+    int currentCounter = idCounter.load();
+    while (id >= currentCounter && !idCounter.compare_exchange_weak(currentCounter, id)) {
+    }
+}
+
 int Item::getId() const {
     return this->id;
 }

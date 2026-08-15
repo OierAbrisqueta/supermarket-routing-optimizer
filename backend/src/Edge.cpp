@@ -16,6 +16,17 @@ Edge::Edge(int idNode1, int idNode2): Edge() {
     this->weight = 0;
 }
 
+Edge::Edge(int id, int idNode1, int idNode2, double weight = 0) {
+    this->id = id;
+    this->idNode1 = idNode1;
+    this->idNode2 = idNode2;
+    this->weight = 0;
+
+    int currentCounter = idCounter.load();
+    while (id >= currentCounter && !idCounter.compare_exchange_weak(currentCounter, id)) {
+    }
+}
+
 int Edge::getNode1() const {
     return this->idNode1;
 }
