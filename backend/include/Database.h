@@ -2,6 +2,8 @@
 #define ROUTINGOPTIMIZER_DATABASE_H
 
 #include <sqlite3.h>
+#include <fstream>
+#include <sstream>
 
 #include "StoreLayout.h"
 
@@ -12,9 +14,14 @@ public:
     Database(const Database&) = delete;
     Database& operator=(const Database&) = delete;
 
+    bool initializeTables();
+    bool insertData();
+    bool isTableEmpty(const std::string& tableName);
+    bool executeSqlScript(const std::string& path);
+
 private:
     sqlite3* db;
-    void executeQuery(const std::string& query);
+    bool executeQuery(const std::string& query);
 
 };
 #endif //ROUTINGOPTIMIZER_DATABASE_H
