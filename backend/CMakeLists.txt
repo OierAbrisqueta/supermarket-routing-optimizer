@@ -19,7 +19,9 @@ add_library(routing_engine
         include/StoreLayout.h
         src/StoreLayout.cpp
         include/RouteEngine.h
-        src/RouteEngine.cpp)
+        src/RouteEngine.cpp
+        include/database.h
+        src/Database.cpp)
 
 add_executable(server src/main.cpp)
 target_link_libraries(server PRIVATE routing_engine SQLite::SQLite3)
