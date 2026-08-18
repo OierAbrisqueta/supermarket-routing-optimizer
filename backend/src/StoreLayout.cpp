@@ -2,15 +2,14 @@
 
 #include <list>
 
-StoreLayout::StoreLayout(std::unordered_map<int,Node> areas, std::unordered_map<int,Edge> edges) {
-    for (auto& [areaId, area] : areas) {
-        this->areas[areaId] = area;
-        this->edgesPerArea[area.getId()];
+StoreLayout::StoreLayout(std::unordered_map<int,Node> areas, std::unordered_map<int,Edge> edges) 
+    : areas(std::move(areas)), edges(std::move(edges)) {
+    for (const auto& [areaId, area] : this->areas) {
+        this->edgesPerArea[areaId];
     }
-    for (auto& [edgeId, edge] : edges) {
+    for (const auto& [edgeId, edge] : this->edges) {
         this->edgesPerArea[edge.getNode1()].push_back(edgeId);
         this->edgesPerArea[edge.getNode2()].push_back(edgeId);
-        this->edges[edgeId] = edge;
     }
 }
 

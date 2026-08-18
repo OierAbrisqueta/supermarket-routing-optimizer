@@ -100,3 +100,68 @@ bool Database::isTableEmpty(const std::string& tableName) {
     sqlite3_finalize(stmt);
     return isEmpty;
 }
+
+StoreLayout Database::getStoreLayout(int storeId) const {
+    std::vector<Edge> edges = getEdges(storeId);
+    std::vector<Node> areas = getAreas(storeId);
+
+    std::unordered_map<int, Edge> edgesById;
+    for (auto& e : edges) {
+        edgesById[e.getId()] = std::move(e);
+    }
+
+    std::unordered_map<int, Node> areasById;
+    for (auto& n : areas) {
+        areasById[n.getId()] = std::move(n);
+    }
+
+    return {std::move(areasById), std::move(edgesById)};
+}
+
+std::vector<Node> Database::getAreas(int storeId) const {
+    std::vector<Node> nodes;
+    std::string sqlQuery = "SELECT id, x, y FROM Area WHERE store_id = ?;";
+    sqlite3_stmt* stmt = nullptr;
+
+    if (sqlite3_prepare_v2(db, sqlQuery.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        std::string errorMessage = sqlite3_errmsg(db);
+        std::cout << "[DB] Error preparing statement for getAreas: " << errorMessage << std::endl;
+        throw std::runtime_error("Database query failed: " + errorMessage);
+    }
+
+    sqlite3_bind_int(stmt, 1, storeId);
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        int id = sqlite3_column_int(stmt, 0);
+        double x = sqlite3_column_double(stmt, 1);
+        double y = sqlite3_column_double(stmt, 2);
+        nodes.emplace_back(id, x, y);
+    }
+
+    sqlite3_finalize(stmt);
+    return nodes;
+}
+
+std::vector<Edge> Database::getEdges(int storeId) const {
+    std::vector<Edge> edges;
+    std::string sqlQuery = "SELECT id, idNode1, idNode2 FROM Edge WHERE store_id = ?;";
+    sqlite3_stmt* stmt = nullptr;
+
+    if (sqlite3_prepare_v2(db, sqlQuery.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        std::string errorMessage = sqlite3_errmsg(db);
+        std::cout << "[DB] Error preparing statement for getEdges: " << errorMessage << std::endl;
+        throw std::runtime_error("Database query failed: " + errorMessage);
+    }
+
+    sqlite3_bind_int(stmt, 1, storeId);
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        int id = sqlite3_column_int(stmt, 0);
+        int idNode1 = sqlite3_column_int(stmt, 1);
+        int idNode2 = sqlite3_column_int(stmt, 2);
+        edges.emplace_back(id, idNode1, idNode2);
+    }
+
+    sqlite3_finalize(stmt);
+    return edges;
+}

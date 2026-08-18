@@ -14,5 +14,16 @@ int main(void) {
 
     if (!db.isTableEmpty("Edge")) cout << "Table Edge is not empty" << endl;
 
+    int storeId = 1;
+    std::vector<int> productIds = {1, 2};
+    int startNodeId = 1;
+    int endNodeId = 5;
+
+    StoreLayout store = db.getStoreLayout(storeId);
+    std::vector<Item> shoppingList = db.getItems(storeId, productIds);
+
+    RouteEngine engine(store);
+    std::vector<int> optimalPath = engine.calculateOptimalRoute(startNodeId, endNodeId, shoppingList);
+
     return 0;
 }
