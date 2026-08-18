@@ -7,13 +7,13 @@
 class Item {
 public:
     Item();
-    Item(std::string name, Node& area);
-    Item(int id, std::string name, Node area);
+    Item(const std::string& name, const Node& area);
+    Item(int id, const std::string& name, const Node& area);
 
     [[nodiscard]] int getId() const;
     [[nodiscard]] std::string getName() const;
     [[nodiscard]] const Node& getArea() const;
-    void setName(std::string newName);
+    void setName(const std::string& newName);
     void setArea(const Node& newArea);
 
     void printItem() const;

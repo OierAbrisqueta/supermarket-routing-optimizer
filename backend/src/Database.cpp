@@ -144,7 +144,7 @@ std::vector<Node> Database::getAreas(int storeId) const {
 
 std::vector<Edge> Database::getEdges(int storeId) const {
     std::vector<Edge> edges;
-    std::string sqlQuery = "SELECT id, idNode1, idNode2 FROM Edge WHERE store_id = ?;";
+    std::string sqlQuery = "SELECT id, node1_id, node2_id FROM Edge WHERE store_id = ?;";
     sqlite3_stmt* stmt = nullptr;
 
     if (sqlite3_prepare_v2(db, sqlQuery.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
@@ -164,4 +164,78 @@ std::vector<Edge> Database::getEdges(int storeId) const {
 
     sqlite3_finalize(stmt);
     return edges;
+}
+
+std::vector<Item> Database::getItems(int storeId, const std::vector<int>& productIds) const {
+    std::vector<int> areaIds;
+    std::vector<int> itemIds;
+    std::vector<Item> items;
+
+    std::string sqlQuery = "SELECT product_id, node_id FROM INVENTORY WHERE store_id = ?;";
+    sqlite3_stmt* stmt = nullptr;
+
+    if (sqlite3_prepare_v2(db, sqlQuery.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        std::string errorMessage = sqlite3_errmsg(db);
+        std::cout << "[DB] Error preparing statement for getEdges: " << errorMessage << std::endl;
+        throw std::runtime_error("Database query failed: " + errorMessage);
+    }
+
+    sqlite3_bind_int(stmt, 1, storeId);
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        int productId = sqlite3_column_int(stmt, 0);
+        int nodeId = sqlite3_column_int(stmt, 1);
+        Node node = getNode(nodeId);
+        Item item = getItem(productId, node);
+        items.push_back(item);
+    }
+    sqlite3_finalize(stmt);
+    return items;
+}
+
+Item Database::getItem(int itemId, const Node& area) const {
+    std::string sqlQuery = "SELECT name FROM Product WHERE id = ?;";
+    sqlite3_stmt* stmt = nullptr;
+
+    if (sqlite3_prepare_v2(db, sqlQuery.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        std::string errorMessage = sqlite3_errmsg(db);
+        std::cout << "[DB] Error preparing statement for getItem: " << errorMessage << std::endl;
+        throw std::runtime_error("Database query failed: " + errorMessage);
+    }
+
+    sqlite3_bind_int(stmt, 1, itemId);
+
+    if (sqlite3_step(stmt) != SQLITE_ROW) {
+        sqlite3_finalize(stmt);
+        throw std::runtime_error("Item not found in database.");
+    }
+    
+    const unsigned char* rawText = sqlite3_column_text(stmt, 0);
+    std::string name = std::string(reinterpret_cast<const char*>(rawText));
+    
+    sqlite3_finalize(stmt);
+    return Item(itemId, name, area);
+}
+
+Node Database::getNode(int nodeId) const {
+    std::string sqlQuery = "SELECT x, y FROM Area WHERE id = ?;";
+    sqlite3_stmt* stmt = nullptr;
+
+    if (sqlite3_prepare_v2(db, sqlQuery.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        std::string errorMessage = sqlite3_errmsg(db);
+        std::cout << "[DB] Error preparing statement for getNode: " << errorMessage << std::endl;
+        throw std::runtime_error("Database query failed: " + errorMessage);
+    }
+
+    sqlite3_bind_int(stmt, 1, nodeId);
+
+    if (sqlite3_step(stmt) != SQLITE_ROW) {
+        sqlite3_finalize(stmt);
+        throw std::runtime_error("Node not found in database.");
+    }
+    
+    double x = sqlite3_column_double(stmt, 0);
+    double y = sqlite3_column_double(stmt, 1);
+
+    sqlite3_finalize(stmt);
+    return {nodeId, x, y};
 }

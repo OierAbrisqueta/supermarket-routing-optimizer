@@ -14,7 +14,7 @@ public:
     void addEdge(const Edge& newEdge);
     void deleteNode(int node);
     void deleteEdge(int edge);
-    [[nodiscard]] std::unordered_map<int, std::vector<int>> getEdgesPerArea() const;
+    [[nodiscard]] const std::unordered_map<int, std::vector<int>>& getEdgesPerArea() const;
     [[nodiscard]] std::vector<Edge> getEdges() const;
     [[nodiscard]] std::vector<Node> getAreas() const;
     [[nodiscard]] std::optional<Node> getAreaById(int id) const;

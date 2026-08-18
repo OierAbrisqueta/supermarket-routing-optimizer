@@ -27,7 +27,7 @@ std::vector<int> RouteEngine::calculateShortestPath(int startId, int endId) cons
     AStarNode nodeStart{startId, hScore(startId, endId)};
     openSet.push(nodeStart);
 
-    auto edgesPerArea = layout.getEdgesPerArea();
+    const auto& edgesPerArea = layout.getEdgesPerArea();
     while (!openSet.empty()) {
         AStarNode current = openSet.top();
         openSet.pop();
@@ -47,8 +47,9 @@ std::vector<int> RouteEngine::calculateShortestPath(int startId, int endId) cons
             return finalPath;
         }
 
-        for (int id : edgesPerArea[current.id]) {
-            Edge e = layout.getEdgeById(id).value();
+        if (edgesPerArea.find(current.id) != edgesPerArea.end()) {
+            for (int id : edgesPerArea.at(current.id)) {
+                Edge e = layout.getEdgeById(id).value();
             int idNeighbor = e.getNode1() == current.id ? e.getNode2() : e.getNode1();
             double neighborGScore = gScore[current.id] + e.getWeight(layout);
             if (gScore.find(idNeighbor) == gScore.end() || neighborGScore < gScore[idNeighbor]) {
@@ -59,8 +60,7 @@ std::vector<int> RouteEngine::calculateShortestPath(int startId, int endId) cons
                 AStarNode neighbor{idNeighbor, neighborFScore};
                 openSet.push(neighbor);
             }
-
-
+            }
         }
     }
     
@@ -156,7 +156,7 @@ std::vector<int> RouteEngine::twoOpt(int startId, int endId, const std::vector<I
     return current;
 }
 
-std::vector<int> RouteEngine::branchAndBound(int startId, int endId, const std::vector<Item>& list, std::vector<int> bestPathFromTwoOpt,
+std::vector<int> RouteEngine::branchAndBound(int startId, int endId, const std::vector<Item>& list, const std::vector<int>& bestPathFromTwoOpt,
                                                  const std::unordered_map<int, std::unordered_map<int, double>>& distMatrix) {
     double bestCost = calculateDistance(bestPathFromTwoOpt);
     std::vector<int> bestPath = bestPathFromTwoOpt;
@@ -208,10 +208,10 @@ void RouteEngine::bbHelper(int currentNode, int endId, double currentCost, std::
     }
 }
 
-[[nodiscard]] double RouteEngine::calculateDistance(std::vector<int> path) const {
+[[nodiscard]] double RouteEngine::calculateDistance(const std::vector<int>& path) const {
     double sum = 0;
     int prevNode = path.at(0);
-    std::unordered_map<int, std::vector<int>> edgesMap = this->layout.getEdgesPerArea();
+    const auto& edgesMap = this->layout.getEdgesPerArea();
 
     for (int i{1}; i < path.size(); i++) {
         int current = path.at(i);

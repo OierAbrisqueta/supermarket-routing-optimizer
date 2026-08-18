@@ -20,7 +20,11 @@ int main(void) {
     int endNodeId = 5;
 
     StoreLayout store = db.getStoreLayout(storeId);
+    store.printLayout();
     std::vector<Item> shoppingList = db.getItems(storeId, productIds);
+    for (Item item : shoppingList) {
+        item.printItem();
+    }
 
     RouteEngine engine(store);
     std::vector<int> optimalPath = engine.calculateOptimalRoute(startNodeId, endNodeId, shoppingList);

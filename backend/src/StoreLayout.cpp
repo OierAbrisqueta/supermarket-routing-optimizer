@@ -75,7 +75,7 @@ void StoreLayout::deleteEdge(int edgeId) {
     }
 }
 
-std::unordered_map<int, std::vector<int>> StoreLayout::getEdgesPerArea() const {
+const std::unordered_map<int, std::vector<int>>& StoreLayout::getEdgesPerArea() const {
     return this->edgesPerArea;
 }
 

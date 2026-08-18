@@ -23,9 +23,11 @@ public:
     bool executeSqlScript(const std::string& path);
 
     [[nodiscard]] StoreLayout getStoreLayout(int storeId) const;
-    [[nodiscard]] std::vector<Item> getItems(int storeId, std::vector<int> productIds) const;
+    [[nodiscard]] std::vector<Item> getItems(int storeId, const std::vector<int>& productIds) const;
     [[nodiscard]] std::vector<Node> getAreas(int storeId) const;
     [[nodiscard]] std::vector<Edge> getEdges(int storeId) const;
+    [[nodiscard]] Item getItem(int itemId, const Node& area) const;
+    [[nodiscard]] Node getNode(int nodeId) const;
 
 private:
     sqlite3* db;

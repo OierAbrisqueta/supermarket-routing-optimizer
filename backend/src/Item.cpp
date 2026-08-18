@@ -7,12 +7,12 @@ Item::Item() {
     this->id = idCounter;
 }
 
-Item::Item(std::string name, Node& area): Item() {
+Item::Item(const std::string& name, const Node& area): Item() {
     this->name = name;
     this->area = area;
 }
 
-Item::Item(int id, std::string name, Node area) {
+Item::Item(int id, const std::string& name, const Node& area) {
     this->id = id;
     this->name = name;
     this->area = area;
@@ -33,7 +33,7 @@ const Node& Item::getArea() const {
     return this->area;
 }
 
-void Item::setName(std::string newName) {
+void Item::setName(const std::string& newName) {
     this->name = newName;
 }
 
