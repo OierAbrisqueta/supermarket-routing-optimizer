@@ -22,7 +22,7 @@ int main(void) {
     StoreLayout store = db.getStoreLayout(storeId);
     store.printLayout();
     std::vector<Item> shoppingList = db.getItems(storeId, productIds);
-    for (Item item : shoppingList) {
+    for (const Item& item : shoppingList) {
         item.printItem();
     }
 
