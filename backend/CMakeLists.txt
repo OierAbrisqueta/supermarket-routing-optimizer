@@ -37,7 +37,9 @@ add_library(routing_engine
         include/RouteEngine.h
         src/RouteEngine.cpp
         include/database.h
-        src/Database.cpp)
+        src/Database.cpp
+        include/ThreadPool.h
+        src/ThreadPool.cpp)
 
 add_executable(server src/main.cpp)
 target_link_libraries(server PRIVATE
