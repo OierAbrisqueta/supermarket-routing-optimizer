@@ -1,5 +1,7 @@
 #ifndef ROUTINGOPTIMIZER_STORELAYOUT_H
 #define ROUTINGOPTIMIZER_STORELAYOUT_H
+
+#pragma once
 #include <unordered_map>
 #include "Node.h"
 #include "Edge.h"

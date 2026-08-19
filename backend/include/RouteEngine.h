@@ -1,5 +1,7 @@
 #ifndef ROUTINGOPTIMIZER_ROUTEENGINE_H
 #define ROUTINGOPTIMIZER_ROUTEENGINE_H
+
+#pragma once
 #include "StoreLayout.h"
 #include "Item.h"
 

@@ -1,6 +1,7 @@
 #ifndef ROUTINGOPTIMIZER_NODE_H
 #define ROUTINGOPTIMIZER_NODE_H
 
+#pragma once
 #include <iostream>
 #include <atomic>
 

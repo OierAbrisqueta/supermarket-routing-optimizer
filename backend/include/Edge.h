@@ -1,6 +1,7 @@
 #ifndef ROUTINGOPTIMIZER_EDGE_H
 #define ROUTINGOPTIMIZER_EDGE_H
 
+#pragma once
 #include "Node.h"
 #include <atomic>
 

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+
+#include "ApiServer.h"
 #include "StoreLayout.h"
 #include "RouteEngine.h"
 #include "Item.h"
@@ -12,22 +14,11 @@ int main(void) {
     db.initializeTables();
     db.insertData();
 
-    if (!db.isTableEmpty("Edge")) cout << "Table Edge is not empty" << endl;
+    int port = 8000;
+    size_t threads = 4;
+    ApiServer server(port, threads, db);
 
-    int storeId = 1;
-    std::vector<int> productIds = {1, 2};
-    int startNodeId = 1;
-    int endNodeId = 5;
-
-    StoreLayout store = db.getStoreLayout(storeId);
-    store.printLayout();
-    std::vector<Item> shoppingList = db.getItems(storeId, productIds);
-    for (const Item& item : shoppingList) {
-        item.printItem();
-    }
-
-    RouteEngine engine(store);
-    std::vector<int> optimalPath = engine.calculateOptimalRoute(startNodeId, endNodeId, shoppingList);
+    server.start();
 
     return 0;
 }

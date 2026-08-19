@@ -1,5 +1,7 @@
 #ifndef ROUTINGOPTIMIZER_ITEM_H
 #define ROUTINGOPTIMIZER_ITEM_H
+
+#pragma once
 #include <string>
 #include "Node.h"
 #include <atomic>

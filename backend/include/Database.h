@@ -1,6 +1,7 @@
 #ifndef ROUTINGOPTIMIZER_DATABASE_H
 #define ROUTINGOPTIMIZER_DATABASE_H
 
+#pragma once
 #include <sqlite3.h>
 #include <fstream>
 #include <sstream>

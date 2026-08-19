@@ -39,7 +39,14 @@ add_library(routing_engine
         include/database.h
         src/Database.cpp
         include/ThreadPool.h
-        src/ThreadPool.cpp)
+        src/ThreadPool.cpp
+        include/ApiServer.h
+        src/ApiServer.cpp)
+
+target_link_libraries(routing_engine PUBLIC
+        httplib::httplib
+        nlohmann_json::nlohmann_json
+)
 
 add_executable(server src/main.cpp)
 target_link_libraries(server PRIVATE

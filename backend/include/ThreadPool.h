@@ -1,6 +1,7 @@
 #ifndef ROUTINGOPTIMIZER_THREADPOOL_H
 #define ROUTINGOPTIMIZER_THREADPOOL_H
 
+#pragma once
 #include <vector>
 #include <queue>
 #include <thread>
