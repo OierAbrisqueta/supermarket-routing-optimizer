@@ -10,6 +10,9 @@ Database::Database(const std::string& path) {
 
         throw std::runtime_error("Failed to open database: " + error);
     }
+
+    executeQuery("PRAGMA journal_mode = WAL;");
+    executeQuery("PRAGMA synchronous = Normal;");
 }
 
 Database::~Database() {
