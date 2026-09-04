@@ -1,12 +1,14 @@
 #include "ThreadPool.h"
 
-ThreadPool::ThreadPool(size_t numThreads) {
+ThreadPool::ThreadPool(size_t numThreads, const std::string& dbPath) {
     this->stop = false;
 
     for (auto i{0}; i < numThreads; i++) {
-        this->workers.emplace_back([this]() {
+        this->workers.emplace_back([this, dbPath]() {
+            Database thread_private_db(dbPath);
+
             while (true) {
-                std::function<void()> task;
+                std::function<void(Database&)> task;
                 {
                     std::unique_lock<std::mutex> lock(this->queueMutex);
 
@@ -22,7 +24,7 @@ ThreadPool::ThreadPool(size_t numThreads) {
                     this->tasks.pop();
                 }
 
-                task();
+                task(thread_private_db);
             }
         });
     }
@@ -43,7 +45,7 @@ ThreadPool::~ThreadPool() {
     }
 }
 
-void ThreadPool::enqueueTask(std::function<void()> task) {
+void ThreadPool::enqueueTask(std::function<void(Database&)> task) {
     {
         std::lock_guard<std::mutex> lock(this->queueMutex);
         this->tasks.push(task);

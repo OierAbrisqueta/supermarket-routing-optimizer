@@ -8,7 +8,7 @@
 
 class ApiServer {
 public:
-    ApiServer(int port, size_t threadCount, Database& db);
+    ApiServer(int port, size_t threadCount, const std::string& dbPath);
 
     void start();
     void stop();
@@ -21,7 +21,6 @@ private:
     int port;
     httplib::Server srv;
     ThreadPool pool;
-    Database& db;
 };
 
 #endif //ROUTINGOPTIMIZER_APISERVER_H

@@ -5,7 +5,7 @@
 
 using json = nlohmann::json;
 
-ApiServer::ApiServer(int port, size_t threadCount, Database& db): port(port), pool(threadCount), db(db) {
+ApiServer::ApiServer(int port, size_t threadCount, const std::string& dbPath): port(port), pool(threadCount, dbPath) {
 }
 
 void ApiServer::start() {
@@ -35,10 +35,10 @@ void ApiServer::handleCalculateRoute(const httplib::Request& request, httplib::R
         auto promise = std::make_shared<std::promise<json>>();
         auto future = promise->get_future();
 
-        pool.enqueueTask([this, store_id, start_node, end_node, product_ids, promise]() {
+        pool.enqueueTask([store_id, start_node, end_node, product_ids, promise](Database& local_db) {
             try {
-                StoreLayout layout = this->db.getStoreLayout(store_id);
-                std::vector<Item> items = this->db.getItems(store_id, product_ids);
+                StoreLayout layout = local_db.getStoreLayout(store_id);
+                std::vector<Item> items = local_db.getItems(store_id, product_ids);
                 
                 RouteEngine engine(layout);
                 std::vector<int> path = engine.calculateOptimalRoute(start_node, end_node, items);

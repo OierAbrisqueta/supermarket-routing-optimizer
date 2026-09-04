@@ -16,7 +16,7 @@ int main(void) {
 
     int port = 8000;
     size_t threads = 4;
-    ApiServer server(port, threads, db);
+    ApiServer server(port, threads, "supermarket.db");
 
     server.start();
 
