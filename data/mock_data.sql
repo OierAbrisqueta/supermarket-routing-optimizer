@@ -1,4 +1,4 @@
-INSERT INTO Stores (id, name) VALUES (1, 'SuperMart');
+INSERT INTO Store (id, name) VALUES (1, 'SuperMart');
 
 INSERT INTO Product (id, name) VALUES (1, 'Milk');
 INSERT INTO Product (id, name) VALUES (2, 'Bread');

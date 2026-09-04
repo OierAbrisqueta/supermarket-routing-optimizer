@@ -37,6 +37,8 @@ bool Database::initializeTables() {
 }
 
 bool Database::insertData() {
+    if (!this->isTableEmpty("Store")) return true;
+
     if (!this->db) {
         std::cout << "[DB] Error: could not insert the data, database connection is null" << std::endl;
         return false;
