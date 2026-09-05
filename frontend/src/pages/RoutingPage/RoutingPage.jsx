@@ -67,7 +67,6 @@ export const RoutingPage = () => {
 
       setOptimalPath(data.optimal_path);
     } catch (err) {
-      setError(err.message);
       console.warn("Backend not reachable. Mocking the route.");
       const path = [1, ...new Set(MOCK_PRODUCTS.filter(p => selectedProductIds.includes(p.id)).map(p => p.node_id)), 1];
       setOptimalPath(path);
