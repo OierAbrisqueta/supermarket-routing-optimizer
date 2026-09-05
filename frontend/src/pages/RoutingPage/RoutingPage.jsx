@@ -22,11 +22,11 @@ const STORE_EDGES = [
 ];
 
 const MOCK_PRODUCTS = [
-  { id: 101, name: 'Milk', node_id: 2 },
-  { id: 102, name: 'Eggs', node_id: 3 },
-  { id: 103, name: 'Bread', node_id: 4 },
-  { id: 104, name: 'Apples', node_id: 5 },
-  { id: 105, name: 'Cereal', node_id: 2 },
+  { id: 1, name: 'Milk', node_id: 2 },
+  { id: 2, name: 'Eggs', node_id: 3 },
+  { id: 3, name: 'Bread', node_id: 4 },
+  { id: 4, name: 'Apples', node_id: 5 },
+  { id: 5, name: 'Cereal', node_id: 2 },
 ];
 
 export const RoutingPage = () => {
