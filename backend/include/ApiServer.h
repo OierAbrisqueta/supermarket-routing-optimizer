@@ -3,7 +3,6 @@
 
 #pragma once
 #include "ThreadPool.h"
-#include "Database.h"
 #include <httplib.h>
 
 class ApiServer {

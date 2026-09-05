@@ -10,6 +10,7 @@ ApiServer::ApiServer(int port, size_t threadCount, const std::string& dbPath): p
 
 void ApiServer::start() {
     std::cout << "Starting server on port: " << port << std::endl;
+    setupRoutes();
     srv.listen("0.0.0.0", port);
 }
 
