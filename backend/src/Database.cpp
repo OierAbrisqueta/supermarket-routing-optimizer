@@ -176,7 +176,7 @@ std::vector<Item> Database::getItems(int storeId, const std::vector<int>& produc
     std::vector<int> itemIds;
     std::vector<Item> items;
 
-    std::string sqlQuery = "SELECT product_id, node_id FROM INVENTORY WHERE store_id = ?;";
+    std::string sqlQuery = "SELECT node_id FROM INVENTORY WHERE store_id = ? AND product_id = ?;";
     sqlite3_stmt* stmt = nullptr;
 
     if (sqlite3_prepare_v2(db, sqlQuery.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
@@ -185,14 +185,23 @@ std::vector<Item> Database::getItems(int storeId, const std::vector<int>& produc
         throw std::runtime_error("Database query failed: " + errorMessage);
     }
 
-    sqlite3_bind_int(stmt, 1, storeId);
-    while (sqlite3_step(stmt) == SQLITE_ROW) {
-        int productId = sqlite3_column_int(stmt, 0);
-        int nodeId = sqlite3_column_int(stmt, 1);
-        Node node = getNode(nodeId);
-        Item item = getItem(productId, node);
-        items.push_back(item);
+    for (int i{0}; i < productIds.size(); i++) {
+        sqlite3_bind_int(stmt, 1, storeId);
+        sqlite3_bind_int(stmt, 2, productIds[i]);
+
+        if (sqlite3_step(stmt) == SQLITE_ROW) {
+            int nodeId = sqlite3_column_int(stmt, 0);
+            Node node = getNode(nodeId);
+
+            Item item = getItem(productIds[i], node);
+            items.push_back(item);
+        } else {
+            std::cout << "[DB] Error retrieving product with id = " << productIds[i] << std::endl;
+        }
+
+        sqlite3_reset(stmt);
     }
+
     sqlite3_finalize(stmt);
     return items;
 }
