@@ -7,26 +7,54 @@ import { StoreMap } from '../../components/StoreMap/StoreMap';
 
 const STORE_NODES = [
   { id: 1, x: 0.0, y: 0.0 },
-  { id: 2, x: 0.0, y: 5.0 },
-  { id: 3, x: 5.0, y: 5.0 },
-  { id: 4, x: 5.0, y: 0.0 },
-  { id: 5, x: 2.0, y: 2.0 }
+  { id: 2, x: 4.0, y: 0.0 },
+  { id: 3, x: 8.0, y: 0.0 },
+  { id: 4, x: 12.0, y: 0.0 },
+  { id: 5, x: 0.0, y: 4.0 },
+  { id: 6, x: 4.0, y: 4.0 },
+  { id: 7, x: 8.0, y: 4.0 },
+  { id: 8, x: 12.0, y: 4.0 },
+  { id: 9, x: 0.0, y: 8.0 },
+  { id: 10, x: 4.0, y: 8.0 },
+  { id: 11, x: 8.0, y: 8.0 },
+  { id: 12, x: 12.0, y: 8.0 }
 ];
 
 const STORE_EDGES = [
   { node1_id: 1, node2_id: 2 },
   { node1_id: 2, node2_id: 3 },
   { node1_id: 3, node2_id: 4 },
-  { node1_id: 4, node2_id: 5 },
-  { node1_id: 1, node2_id: 4 }
+  { node1_id: 5, node2_id: 6 },
+  { node1_id: 6, node2_id: 7 },
+  { node1_id: 7, node2_id: 8 },
+  { node1_id: 9, node2_id: 10 },
+  { node1_id: 10, node2_id: 11 },
+  { node1_id: 11, node2_id: 12 },
+  { node1_id: 1, node2_id: 5 },
+  { node1_id: 5, node2_id: 9 },
+  { node1_id: 2, node2_id: 6 },
+  { node1_id: 6, node2_id: 10 },
+  { node1_id: 3, node2_id: 7 },
+  { node1_id: 7, node2_id: 11 },
+  { node1_id: 4, node2_id: 8 },
+  { node1_id: 8, node2_id: 12 }
 ];
 
 const MOCK_PRODUCTS = [
-  { id: 1, name: 'Milk', node_id: 2 },
-  { id: 2, name: 'Eggs', node_id: 3 },
-  { id: 3, name: 'Bread', node_id: 4 },
-  { id: 4, name: 'Apples', node_id: 5 },
-  { id: 5, name: 'Cereal', node_id: 2 },
+  { id: 1, name: 'Apples', node_id: 5 },
+  { id: 2, name: 'Bananas', node_id: 5 },
+  { id: 3, name: 'Bread', node_id: 9 },
+  { id: 4, name: 'Croissants', node_id: 9 },
+  { id: 5, name: 'Chicken', node_id: 10 },
+  { id: 6, name: 'Beef', node_id: 10 },
+  { id: 7, name: 'Pasta', node_id: 6 },
+  { id: 8, name: 'Rice', node_id: 6 },
+  { id: 9, name: 'Chips', node_id: 7 },
+  { id: 10, name: 'Cola', node_id: 7 },
+  { id: 11, name: 'Pizza', node_id: 8 },
+  { id: 12, name: 'Ice Cream', node_id: 8 },
+  { id: 13, name: 'Milk', node_id: 12 },
+  { id: 14, name: 'Cheese', node_id: 12 }
 ];
 
 export const RoutingPage = () => {
