@@ -85,12 +85,12 @@ export const RoutingPage = () => {
     <div className="container">
       <header className={styles.header}>
         <h1 className={styles.title}>Store Routing Optimizer</h1>
-        <p className={styles.subtitle}>Select items to generate the most efficient picking route.</p>
       </header>
 
       <div className={styles.layout}>
         <aside className={styles.sidebar}>
           <Card title="Shopping List">
+            <p className={styles.subtitle}>Select items to generate the most efficient picking route.</p>
             <ItemSelector
               items={MOCK_PRODUCTS}
               selectedIds={selectedProductIds}
